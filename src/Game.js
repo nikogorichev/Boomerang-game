@@ -14,6 +14,7 @@ const Control = require('./keyboard')
 class Game {
   constructor({ trackLength }) {
     this.trackLength = trackLength;
+    
     this.boomerang = new Boomerang()
     this.hero = new Hero(this.boomerang); // Герою можно аргументом передать бумеранг.
     this.enemy = new Enemy();
@@ -28,12 +29,17 @@ class Game {
     // в единую структуру данных
     this.track = (new Array(this.trackLength)).fill(' ');
     this.track[this.hero.position] = this.hero.skin;
-   
+    this.track[this.boomerang.position] = this.boomerang.skin;
+    this.track[this.enemy.position] = this.enemy.skin;
   }
 
   check() {
     if (this.hero.position === this.enemy.position) {
       this.hero.die();
+    }
+    else if (this.boomerang.position === this.enemy.position) {
+      this.enemy.die();
+      console.log('Enemy dead!');
     }
   }
 
@@ -41,10 +47,15 @@ class Game {
     this.control.runInteractiveConsole()
     setInterval(() => {
       // Let's play!
+      this.enemy.moveLeft()
+      
       this.check();
+  
       this.regenerateTrack();
+      
       this.view.render(this.track);
-    }, 50);
+
+    }, 100);
   }
 }
 

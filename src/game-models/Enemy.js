@@ -3,7 +3,7 @@
 class Enemy {
   constructor() {
     this.generateSkin();
-    this.position = 20;
+    this.position = 40;
   }
 
   generateSkin() {
@@ -14,11 +14,14 @@ class Enemy {
   moveLeft() {
     // Идём влево.
     this.position -= 1;
-  }
+    }
 
   die() {
+    this.skin = '💀';
     this.position = '?';
     console.log('Enemy is dead!');
+    
+    // process.exit();
   }
 }
 

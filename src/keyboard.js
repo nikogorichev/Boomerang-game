@@ -13,7 +13,12 @@ class Control {
     this.keyboard = {
       d: () => this.hero.moveRight(),
       a: () => this.hero.moveLeft(),
-      // e: () => this.hero.('e'),
+      e: () => {
+        this.boomerang.position = this.hero.position+1
+        setInterval(() => {
+          this.boomerang.fly()
+        }, 100)
+      },
       // r: () => this.hero.('r'),
       // t: () => this.hero.('t'),
       // y: () => this.hero.('y'),
@@ -21,24 +26,24 @@ class Control {
   }
 
 
-// Какая-то функция.
+  // Какая-то функция.
 
-runInteractiveConsole() {
-  keypress(process.stdin);
-  process.stdin.on('keypress', (ch, key) => {
-    if (key) {
-      // Вызывает команду, соответствующую нажатой кнопке.
-      if (key.name in this.keyboard) {
-        this.keyboard[key.name]();
+  runInteractiveConsole() {
+    keypress(process.stdin);
+    process.stdin.on('keypress', (ch, key) => {
+      if (key) {
+        // Вызывает команду, соответствующую нажатой кнопке.
+        if (key.name in this.keyboard) {
+          this.keyboard[key.name]();
+        }
+        // Прерывание программы.
+        if (key.ctrl && key.name === 'c') {
+          process.exit();
+        }
       }
-      // Прерывание программы.
-      if (key.ctrl && key.name === 'c') {
-        process.exit();
-      }
-    }
-  });
-  process.stdin.setRawMode(true);
-}
+    });
+    process.stdin.setRawMode(true);
+  }
 }
 
 // Давай попробуем запустить этот скрипт!
